@@ -1,8 +1,8 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:alert/alert.dart';
+import 'package:untitled6/pages/update_devotional.dart';
 import './fellowship_covenant.dart';
 import './weekly_activities.dart';
 import './anthem.dart';
@@ -11,11 +11,10 @@ import './organogram.dart';
 import './church_accounts.dart';
 import './about.dart';
 import './leadership.dart';
-
 import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-
+import './devotional.dart';
 
 Color? notif(condition){
   Color? c;
@@ -37,6 +36,7 @@ class _MainHomeState extends State<MainHome> {
 
   String pathPDF = "";
 
+
   @override
   void initState() {
     super.initState();
@@ -51,6 +51,7 @@ class _MainHomeState extends State<MainHome> {
         // );
       });
     });
+
   }
 
   Future<File> fromAsset(String asset, String filename) async {
@@ -115,6 +116,7 @@ class _MainHomeState extends State<MainHome> {
                 runSpacing: 10,
 
                 children: [
+
                   ElevatedButton(
                     onPressed: (){
                       Alert(message: "Coming soon...").show();
@@ -149,6 +151,7 @@ class _MainHomeState extends State<MainHome> {
                         ),),
                     ),
                   ),
+
                   ElevatedButton(
                     onPressed: (){
                       Alert(message: "Coming soon...").show();
@@ -227,6 +230,53 @@ class _MainHomeState extends State<MainHome> {
                         ),),
                       ),
                   ),
+
+                  ElevatedButton(
+                      onPressed: (){
+                        if (pathPDF.isNotEmpty) {
+                          Navigator.push(
+
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => devotionalUpdateField(),
+                            ),
+                          );
+                        }
+                        // print("Pressed");
+                      },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            // Change the button color based on the state
+                            if (states.contains(MaterialState.pressed)) {
+                              return Colors.blue.shade200;
+                            } else if (states.contains(MaterialState.disabled)) {
+                              return Colors.grey;
+                            }
+                            return Colors.white; // Use the default button color
+                          },
+                        ),
+                    ),
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        alignment: Alignment.center,
+                        color: Colors.transparent,
+                        constraints: const BoxConstraints(
+                          maxWidth: 100.0,
+                          maxHeight: 100.0,
+                        ),
+                        child: const Text(
+                          textAlign: TextAlign.center,
+                          "Update Devotional",
+                          softWrap: true,
+                          style: TextStyle(
+                          color: Color(0xaa012bb1),
+                        ),),
+                      ),
+                  ),
+
+
                 ],
               ),
               const SizedBox(height: 10),
@@ -236,65 +286,6 @@ class _MainHomeState extends State<MainHome> {
         ),
       ),
       drawer: MainDrawer(),
-    );
-  }
-}
-
-
-class DailyDevotion extends StatefulWidget {
-  const DailyDevotion({Key? key}) : super(key: key);
-
-  @override
-  State<DailyDevotion> createState() => _DailyDevotionState();
-}
-
-class _DailyDevotionState extends State<DailyDevotion> {
-  String devotionalContent = 'THis is the Devotional';
-  String today = DateFormat('EEEE, d MMMM yyyy').format(DateTime.now()).toString().toUpperCase();
-
-
-  @override
-  void initState() {
-    super.initState();
-    getDevotion();
-  }
-
-  Future<void> getDevotion() async {
-    String response;
-    try {
-      response = await rootBundle.loadString('assets/texts/devotional.txt');
-      setState(() {
-        devotionalContent = response;
-      });
-    } catch (e) {
-      print('Error reading file: $e');
-    }
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: ExpansionTile(
-        title: Center(child: Text(today)),
-        subtitle: const Center(child: Text("Daily Devotion")),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Column(
-                children: [
-                  Text(
-                    devotionalContent,
-                    style: const TextStyle(
-                      fontSize: 16),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
@@ -312,36 +303,40 @@ class MainDrawer extends StatelessWidget {
           thumbVisibility: true,
           child: ListView(
             children: [
-              Flex(
-                // padding: EdgeInsets.all(0),
-                direction: Axis.horizontal,
-                children: const [
-                  Expanded(
-                    child: Center(
-                      child: Image(
-                  image: AssetImage('assets/theme.png'),
+              Container(
+                padding: EdgeInsets.zero,
+                color: Color(0xFFCCD5EF),
+                child: Flex(
+                  // padding: EdgeInsets.all(0),
+                  direction: Axis.horizontal,
+                  children: const [
+                    Expanded(
+                      child: Center(
+                        child: Image(
+                    image: AssetImage('assets/theme2.png'),
+                        ),
                       ),
                     ),
-                  ),
-                ]
+                  ]
+                ),
               ),
               const ECWA_AppCard(trans_body: Anthem(), title: "ECWA Anthem",),
               const ECWA_AppCard(trans_body: Weekly_Act(), title: "Weekly Activities",),
               const ECWA_AppCard(trans_body: felCov(), title: "Fellowship Covenant",),
-              // ECWA_AppCard(trans_body: Bible_study_manul(), title: "Bible Study manual",),
-              // ECWA_AppCard(trans_body: ChurchAccounts(), title: "FellowShip Groups",),
               ExpansionTile(
-                collapsedTextColor: Colors.blueAccent,
+                collapsedTextColor: Colors.red,
                 textColor: const Color(0xff012bb1),
                 collapsedIconColor: const Color(0xff012bb1),
                 iconColor: const Color(0xff012bb1),
                 childrenPadding: const EdgeInsets.only(left: 20.0),
-                leading: const Icon(Icons.keyboard_arrow_right),
-                title: const Text("Leadership", style: TextStyle(
-                  color: Color(0xaa012bb1)
-                ),),
+                leading: const Icon(Icons.keyboard_arrow_right, color: Color(0xaa012bb1),),
+                title: const Text("The Church", style: TextStyle(
+                  color: Color(0xaa012bb1),
+                  fontFamily: "Times New Roman"
+                    ),
+                ),
                 children: [
-                  ListTile(title: ECWA_AppCard(trans_body: LeaderShip(), title: "Leadership Contacts",)),
+                  ListTile(title: ECWA_AppCard(trans_body: LeaderShip(), title: "Church Contacts",)),
                   const ListTile(title: ECWA_AppCard(trans_body: OurOrganogram(), title: "Church Organogram",),),
                   const ListTile(title: ECWA_AppCard(trans_body: ChurchAccounts(), title: "Church Accounts",),)
                 ],
@@ -371,6 +366,7 @@ class ECWA_AppCard extends StatelessWidget {
     return Card(
       shadowColor: Colors.white,
       child: Container(
+
         color: Colors.white,
         child: ListTile(
           selectedColor: Color(myBlue),

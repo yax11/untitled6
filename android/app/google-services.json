@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "698912864121",
+    "project_id": "ecwa-durumi-ii",
+    "storage_bucket": "ecwa-durumi-ii.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698912864121:android:057c97ba2e745ab8ca61a8",
+        "android_client_info": {
+          "package_name": "com.ecwa_durumi_II.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "698912864121-b8o92utp2fkbm101d5id4764unb8pc6b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDokOasss09Elo0lIOTFtGVi92SiepTM5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "698912864121-b8o92utp2fkbm101d5id4764unb8pc6b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

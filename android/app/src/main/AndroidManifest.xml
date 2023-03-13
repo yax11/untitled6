@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.untitled6">
+    package="com.ecwa_durumi_II.app">
    <application
         android:label="EG D2"
         android:name="${applicationName}"
