@@ -26,7 +26,11 @@ class LeaderShip extends StatelessWidget {
 
           Column(
             children: [
-              Text('')
+              Row(
+                children: [
+                  Text("ecwagoodnewsdurumi2@yahoo.com")
+                ],
+              )
             ],
           ),
 
