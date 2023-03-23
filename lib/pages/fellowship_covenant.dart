@@ -71,20 +71,31 @@ class _felCovState extends State<felCov> {
               ],
             ),
           ),
-          OutlinedButton(
-            onPressed: () {
-              Alert(message: 'Fellowship Covenant COPIED').show();
-              Clipboard.setData(ClipboardData(text: fellowshipCovenant));
-            },
-            style: ButtonStyle(
-              side: MaterialStateProperty.all<BorderSide>(BorderSide.none),
+
+          const Padding(padding: EdgeInsets.all(5),),
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: const Color(0xffe6eaf7)
+
+            )
+            ,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(onPressed: () async {
+                  Alert(message: 'Fellowship Covenant COPIED').show();
+                  Clipboard.setData(ClipboardData(text: fellowshipCovenant));                },
+                    icon: const Icon(Icons.copy, color: Color(0xFF012BB1),)
+                ),
+
+                IconButton(onPressed: () async {
+                  print("Shared");
+                },
+                    icon: const Icon(Icons.share, color: Color(0xFF012BB1),)),
+              ],
             ),
-            child: const Icon(
-              Icons.copy,
-              size: 30,
-              color: Color(0xaa012BB1),
-            ),
-          )
+          ),
         ],
       ),
     );

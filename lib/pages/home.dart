@@ -313,7 +313,7 @@ class MainDrawer extends StatelessWidget {
                     Expanded(
                       child: Center(
                         child: Image(
-                    image: AssetImage('assets/theme2.png'),
+                    image: AssetImage('assets/theme2.jpeg'),
                         ),
                       ),
                     ),
