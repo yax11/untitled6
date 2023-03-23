@@ -68,7 +68,7 @@ class devotionalUpdateField extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar:               Container(
+      bottomNavigationBar: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: const Color(0xffe6eaf7)

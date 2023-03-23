@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:alert/alert.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Anthem extends StatefulWidget {
   const Anthem({Key? key}) : super(key: key);
@@ -90,7 +91,8 @@ class _AnthemState extends State<Anthem> {
                     icon: const Icon(Icons.copy, color: Color(0xFF012BB1),)),
 
                 IconButton(onPressed: () async {
-                  print("Shared");
+                  Share.share(ecwaAnthem);
+
                 },
                     icon: const Icon(Icons.share, color: Color(0xFF012BB1),)),
 

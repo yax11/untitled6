@@ -28,6 +28,7 @@ dependencies:
   firebase_database: ^10.0.15
   change_app_package_name: ^1.1.0
   pdfx: ^2.3.0
+  share_plus: ^6.3.1
 #  icon: ^null
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:alert/alert.dart';
+import 'package:share_plus/share_plus.dart';
 
 class felCov extends StatefulWidget {
   const felCov({Key? key}) : super(key: key);
@@ -90,7 +91,7 @@ class _felCovState extends State<felCov> {
                 ),
 
                 IconButton(onPressed: () async {
-                  print("Shared");
+                  Share.share(fellowshipCovenant);
                 },
                     icon: const Icon(Icons.share, color: Color(0xFF012BB1),)),
               ],
