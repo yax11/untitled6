@@ -1,29 +1,57 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import './pages/home.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 
-void main()async {
+
+Future<String> getBibleStudyManualFromFirebaseStorage() async {
+  String fileName = "bible_study_manual.pdf";
+  final Reference ref =
+  FirebaseStorage.instance.ref().child(fileName);
+
+  final appDocDir = await getApplicationDocumentsDirectory();
+  final file = File('${appDocDir.path}/$fileName');
+  await ref.writeToFile(file);
+
+  try {
+    final data = await ref.getData();
+    if (data != null) {
+      await file.writeAsBytes(data);
+      return 'ok';
+    } else {
+      return 'no';
+      // throw Exception('No data returned from Firebase');
+    }
+  } catch (e) {
+    // print('An error occurred while reading from Firebase: $e');
+    return 'error';
+  }
+}
+
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  getBibleStudyManualFromFirebaseStorage();
 
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Flutter Demo',
+    title: 'ECWA Durumi II',
     theme: ThemeData(
       primarySwatch: Colors.blue,
-      appBarTheme: const AppBarTheme(
-      ),
+      appBarTheme: const AppBarTheme(),
     ),
     home: const MainHome(),
   ));
 }
 
 class MyCustomTransitions extends StatelessWidget {
+  const MyCustomTransitions({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,13 +59,13 @@ class MyCustomTransitions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
-              onPressed: () => Navigator.push(
-                  context, SlideTransition1(SecondPage())),
-              child: Text('TAP TO VIEW SLIDE ANIMATION 1')),
+              onPressed: () =>
+                  Navigator.push(context, SlideTransition1(SecondPage())),
+              child: const Text('TAP TO VIEW SLIDE ANIMATION 1')),
           ElevatedButton(
-              onPressed: () => Navigator.push(
-                  context, SlideTransition2(SecondPage())),
-              child: Text('TAP TO VIEW SLIDE ANIMATION 2')),
+              onPressed: () =>
+                  Navigator.push(context, SlideTransition2(SecondPage())),
+              child: const Text('TAP TO VIEW SLIDE ANIMATION 2')),
         ],
       ),
     );
@@ -49,20 +77,20 @@ class SlideTransition1 extends PageRouteBuilder {
 
   SlideTransition1(this.page)
       : super(
-      pageBuilder: (context, animation, anotherAnimation) => page,
-      transitionDuration: Duration(milliseconds: 2000),
-      reverseTransitionDuration: Duration(milliseconds: 100),
-      transitionsBuilder: (context, animation, anotherAnimation, child) {
-        animation = CurvedAnimation(
-            curve: Curves.fastLinearToSlowEaseIn,
-            parent: animation,
-            reverseCurve: Curves.fastOutSlowIn);
-        return SlideTransition(
-          position: Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
-              .animate(animation),
-          child: page,
-        );
-      });
+            pageBuilder: (context, animation, anotherAnimation) => page,
+            transitionDuration: Duration(milliseconds: 2000),
+            reverseTransitionDuration: Duration(milliseconds: 100),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  parent: animation,
+                  reverseCurve: Curves.fastOutSlowIn);
+              return SlideTransition(
+                position: Tween(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                    .animate(animation),
+                child: page,
+              );
+            });
 }
 
 class SlideTransition2 extends PageRouteBuilder {
@@ -70,21 +98,22 @@ class SlideTransition2 extends PageRouteBuilder {
 
   SlideTransition2(this.page)
       : super(
-      pageBuilder: (context, animation, anotherAnimation) => page,
-      transitionDuration: Duration(milliseconds: 2000),
-      reverseTransitionDuration: Duration(milliseconds: 1000),
-      transitionsBuilder: (context, animation, anotherAnimation, child) {
-        animation = CurvedAnimation(
-            curve: Curves.fastLinearToSlowEaseIn,
-            parent: animation,
-            reverseCurve: Curves.fastOutSlowIn);
-        return SlideTransition(
-          position: Tween(begin: const Offset(1.0, 0.0), end: Offset(0.0, 0.0))
-              .animate(animation),
-          textDirection: TextDirection.rtl,
-          child: page,
-        );
-      });
+            pageBuilder: (context, animation, anotherAnimation) => page,
+            transitionDuration: Duration(milliseconds: 2000),
+            reverseTransitionDuration: Duration(milliseconds: 1000),
+            transitionsBuilder: (context, animation, anotherAnimation, child) {
+              animation = CurvedAnimation(
+                  curve: Curves.fastLinearToSlowEaseIn,
+                  parent: animation,
+                  reverseCurve: Curves.fastOutSlowIn);
+              return SlideTransition(
+                position:
+                    Tween(begin: const Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                        .animate(animation),
+                textDirection: TextDirection.rtl,
+                child: page,
+              );
+            });
 }
 
 class SecondPage extends StatelessWidget {
@@ -106,11 +135,12 @@ class SecondPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance),label: '1'),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit_outlined), label: '2'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance), label: '1'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.ac_unit_outlined), label: '2'),
         ],
       ),
     );
   }
 }
-

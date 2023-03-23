@@ -18,7 +18,6 @@ class _DailyDevotionState extends State<DailyDevotion> {
       .toString()
       .toUpperCase();
 
-
   bool condition = false;
   String text = "Tap the Refresh Button Above to Update";
 
@@ -28,27 +27,27 @@ class _DailyDevotionState extends State<DailyDevotion> {
     final Reference ref = FirebaseStorage.instance.ref().child('devotional.txt');
 
     try {
-      final data = await ref.getData();
+      final data = await Future.any([
+        ref.getData(),
+        Future.delayed(const Duration(seconds: 5), () => null)
+      ]);
 
       if (data != null) {
         await file.writeAsBytes(data);
         final content = await file.readAsString();
         getLastSavedDevotional();
         return content;
-
       } else {
         final content = await file.readAsString();
         getLastSavedDevotional();
         return content;
-        // throw Exception('No data returned from Firebase');
       }
     } catch (e) {
-      // print('An error occurred while reading from Firebase: $e');
       return '';
     }
   }
 
-  getLastSavedDevotional() async{
+  getLastSavedDevotional() async {
     setState(() {
       text = "";
       condition = false;
@@ -57,7 +56,7 @@ class _DailyDevotionState extends State<DailyDevotion> {
     final Directory appDocDir = await getApplicationDocumentsDirectory();
     final File file = File('${appDocDir.path}/devotional.txt');
     final content = await file.readAsString();
-    await Future.delayed( const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
 
     setState(() {
       text = content;
@@ -69,28 +68,30 @@ class _DailyDevotionState extends State<DailyDevotion> {
   void initState() {
     super.initState();
     readFromFirebaseStorage();
-    // getLastSavedDevotional();
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0xffe6eaf7),
+        color: const Color(0xffe6eaf7),
         borderRadius: BorderRadius.circular(10),
-
       ),
       child: Card(
         child: ExpansionTile(
-
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: const BorderSide( color: Color(0xffe6eaf7), style: BorderStyle.none
-            )
+              borderRadius: BorderRadius.circular(20),
+              side: const BorderSide(
+                  color: Color(0xffe6eaf7), style: BorderStyle.none)),
+          title: const Center(
+            child: Text(
+              "TODAY'S",
+              style: TextStyle(color: Color(0xFF012BB1)),
+            ),
           ),
-          title: const Center(child: Text("TODAY'S", style: TextStyle(color: Color(0xFF012BB1)),),),
-          subtitle: const Center(child: Text("Daily Devotion", style: TextStyle(color: Color(0xFF012BB1)))),
+          subtitle: const Center(
+              child: Text("Daily Devotion",
+                  style: TextStyle(color: Color(0xFF012BB1)))),
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -99,31 +100,37 @@ class _DailyDevotionState extends State<DailyDevotion> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xffe6eaf7)
-
-              )
-                  ,
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xffe6eaf7)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                        IconButton(onPressed: () async {
-                          readFromFirebaseStorage();
-                        },
-                            icon: const Icon(Icons.update, color: Color(0xFF012BB1),)),
-
-                        IconButton(onPressed: () async {
-                          print("Shared");
-                        },
-                            icon: const Icon(Icons.share, color: Color(0xFF012BB1),)),
-
-                      ],
+                          IconButton(
+                              onPressed: () async {
+                                readFromFirebaseStorage();
+                                Future.delayed(const Duration(seconds: 1));
+                                setState(() {
+                                  // text = content;
+                                  condition = true;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.update,
+                                color: Color(0xFF012BB1),
+                              )),
+                          IconButton(
+                              onPressed: () async {
+                                print("Shared");
+                              },
+                              icon: const Icon(
+                                Icons.share,
+                                color: Color(0xFF012BB1),
+                              )),
+                        ],
                       ),
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 20))
-                    ,
-                    condition ?  Text(text) : const CircularProgressIndicator(),
-
+                    const Padding(padding: EdgeInsets.only(top: 20)),
+                    condition ? Text(text) : const CircularProgressIndicator(),
                   ],
                 ),
               ),

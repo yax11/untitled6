@@ -49,7 +49,7 @@ class _felCovState extends State<felCov> {
                       "THE FELLOWSHIP COVENANT",
 
                       style: TextStyle(
-                          color: Color(0xaa012BB1),
+                          color: Colors.black,
                           overflow: TextOverflow.fade,
                           fontFamily: "Tahoma",
                           fontSize: 16.0,
@@ -62,7 +62,7 @@ class _felCovState extends State<felCov> {
                   fellowshipCovenant,
                   // "THIS IS TEST",
                   style: const TextStyle(
-                    color: Color(0xaa012BB1),
+                    color: Colors.black,
                     overflow: TextOverflow.fade,
                     fontFamily: "Times New Roman",
                     fontSize: 16.0,

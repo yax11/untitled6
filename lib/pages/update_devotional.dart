@@ -4,12 +4,14 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
-
-
-class devotionalUpdateField extends StatelessWidget {
+class devotionalUpdateField extends StatefulWidget {
   devotionalUpdateField({Key? key}) : super(key: key);
 
+  @override
+  State<devotionalUpdateField> createState() => _devotionalUpdateFieldState();
+}
 
+class _devotionalUpdateFieldState extends State<devotionalUpdateField> {
   var txt = '';
 
   Future<String> updateFromFirebaseStorage() async {
@@ -20,10 +22,11 @@ class devotionalUpdateField extends StatelessWidget {
       // await file.writeAsString(devotionalController.text);
 
       // Get a reference to the 'devotional.txt' file in Firebase Cloud Storage
-      final Reference ref = FirebaseStorage.instance.ref().child('devotional.txt');
+      // final Reference ref =
+      //     FirebaseStorage.instance.ref().child('devotional.txt');
 
       // Upload the content of 'tmp_devotional.txt' to 'devotional.txt'
-      final UploadTask task = ref.putFile(file);
+      // final UploadTask task = ref.putFile(file);
 
       // Wait for the upload operation to complete
       // await task.onComplete;
@@ -37,31 +40,53 @@ class devotionalUpdateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+
+    getLastSavedDevotional() async {
+      setState(() {
+        txt = "";
+      });
+
+      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      final File file = File('${appDocDir.path}/devotional.txt');
+      final content = await file.readAsString();
+      controller.text = content;
+      setState(() {
+        txt = "";
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(
-            color: Color(0xFF012BB1)
-        ),
+        leading: const BackButton(color: Color(0xFF012BB1)),
         backgroundColor: Colors.white,
-        title: const Text("Update Daily Devotional", style: TextStyle(color: Color(0xFF012BB1)),),
+        title: const Text(
+          "Update Daily Devotional",
+          style: TextStyle(color: Color(0xFF012BB1)),
+        ),
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){},
-            icon: const Image(image: AssetImage('assets/ecwa_no_bg.png'),),
+          IconButton(
+            onPressed: () {},
+            icon: const Image(
+              image: AssetImage('assets/ecwa_no_bg.png'),
+            ),
           )
         ],
       ),
       body: Column(
-        children:  [
+        children: [
+          const Padding(padding: EdgeInsets.all(10)),
           Flexible(
             fit: FlexFit.tight,
             child: TextField(
+              controller: controller,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Enter text',
               ),
               maxLines: null,
-              onChanged: (value){
+              onChanged: (value) {
                 txt = value;
               },
             ),
@@ -71,23 +96,31 @@ class devotionalUpdateField extends StatelessWidget {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color(0xffe6eaf7)
-
-        ),
+            color: const Color(0xffe6eaf7)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(onPressed: () {
-              print('DEVOTIONAL');
-            },
-                icon: const Icon(Icons.update, color: Color(0xFF012BB1),)),
-
-            IconButton(onPressed: () async {
-              updateFromFirebaseStorage();
-              print("Shared");
-            },
-                icon: const Icon(Icons.share, color: Color(0xFF012BB1),)),
-
+            IconButton(
+              onPressed: () async {
+                getLastSavedDevotional();
+              },
+              icon: const Icon(Icons.update, color: Color(0xFF012BB1)),
+            ),
+            IconButton(
+              onPressed: () async {
+                txt = "";
+                controller.clear();
+                setState(() {
+                  txt = "";
+                  controller.clear();
+                });
+              },
+              icon: const Icon(Icons.clear, color: Color(0xFF012BB1)),
+            ),
+            IconButton(
+              onPressed: () async {},
+              icon: const Icon(Icons.upload, color: Color(0xFF012BB1)),
+            ),
           ],
         ),
       ),

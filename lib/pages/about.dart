@@ -22,24 +22,24 @@ class AboutApp extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'Version 1.0.0',
             style: TextStyle(fontSize: 16),
           ),
-          SizedBox(height: 32),
-          Text(
+          const SizedBox(height: 32),
+          const Text(
             'About the App',
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16),
-          Text(
+          const SizedBox(height: 16),
+          const Text(
             'This app is designed to aid worship in and outside the Church premises',
             style: TextStyle(fontSize: 16),
           ),
-          Padding(padding: EdgeInsets.all(20.0)),
+          const Padding(padding: EdgeInsets.all(20.0)),
           Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
@@ -49,9 +49,8 @@ class AboutApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   Text(
-                    "yakubuharuna11@gmail.com",
+                    "E-mail Developers",
                     style: TextStyle(
-                      fontSize: 20,
                       color: Color(0xff012bb1),
                     ),
                     textAlign: TextAlign.center,
@@ -70,7 +69,6 @@ class AboutApp extends StatelessWidget {
               },
             ),
           ),
-
           Padding(padding: EdgeInsets.all(6.0)),
           Container(
             decoration: BoxDecoration(
@@ -81,9 +79,8 @@ class AboutApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: const [
                   Text(
-                    "08143002447",
+                    "Call Developers",
                     style: TextStyle(
-                      fontSize: 20,
                       color: Color(0xff012bb1),
                     ),
                     textAlign: TextAlign.center,
