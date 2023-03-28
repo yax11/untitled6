@@ -19,6 +19,7 @@ class _devotionalUpdateFieldState extends State<devotionalUpdateField> {
       final Directory appDocDir = await getApplicationDocumentsDirectory();
       final File file = File('${appDocDir.path}/tmp_devotional.txt');
       await file.writeAsString(txt.replaceAll('*', ''));
+
       // await file.writeAsString(devotionalController.text);
 
       // Get a reference to the 'devotional.txt' file in Firebase Cloud Storage
